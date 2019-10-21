@@ -17,6 +17,7 @@ include(`sof/tokens.m4')
 # Include Apollolake DSP configuration
 include(`platform/intel/bxt.m4')
 
+
 DEBUG_START
 
 #
@@ -32,12 +33,13 @@ dnl     dai type, dai_index, dai format,
 dnl     dai periods, pcm_min_rate, pcm_max_rate,
 dnl     pipeline_rate, time_domain)
 
-# Low Latency playback pipeline 1 on PCM 0 using max 4 channels of s32le.
+# Low Latency playback pipeline 1 on PCM 0 using max 2 channels of s32le.
 # 1000us deadline on core 0 with priority 0
 PIPELINE_PCM_DAI_ADD(sof/pipe-volume-playback.m4,
-	1, 0, 4, s32le,
+	1, 0, 2, s32le,
 	1000, 0, 0, SSP, 4, s32le, 3,
 	48000, 48000, 48000)
+
 
 #
 # DAIs configuration
@@ -48,12 +50,13 @@ dnl     pipe id, dai type, dai_index, dai_be,
 dnl     buffer, periods, format,
 dnl     deadline, priority, core, time_domain)
 
+
 # playback DAI is SSP4 using 3 periods
 # Buffers use s32le format, 1000us deadline on core 0 with priority 0
 DAI_ADD(sof/pipe-dai-playback.m4,
 	1, SSP, 4, SSP4-Codec,
 	PIPELINE_SOURCE_1, 3, s32le,
-	1000, 0, 0)
+	1000, 0, 0, SCHEDULE_TIME_DOMAIN_TIMER)
 
 # PCM Low Latency, id 0
 PCM_DUPLEX_ADD(Port0, 2, PIPELINE_PCM_4, PIPELINE_PCM_5)
@@ -66,12 +69,14 @@ PCM_DUPLEX_ADD(Port5, 5, PIPELINE_PCM_9, PIPELINE_PCM_10)
 #
 # BE configurations - overrides config in ACPI if present
 #
+
 DAI_CONFIG(SSP, 4, 4, SSP4-Codec,
 	   SSP_CONFIG(DSP_B, SSP_CLOCK(mclk, 24576000, codec_mclk_in),
 		      SSP_CLOCK(bclk, 12288000, codec_slave),
 		      SSP_CLOCK(fsync, 48000, codec_slave),
-		      SSP_TDM(8, 32, 15, 15),
+		      SSP_TDM(2, 32, 15, 15),
 		      SSP_CONFIG_DATA(SSP, 4, 32)))
+
 
 VIRTUAL_DAPM_ROUTE_IN(BtHfp_ssp0_in, SSP, 0, IN, 0)
 VIRTUAL_DAPM_ROUTE_OUT(BtHfp_ssp0_out, SSP, 0, OUT, 1)
