@@ -3,7 +3,8 @@ TPLGS	=	sof-apl-nocodec.tplg \
 		sof-apl-tdf8532-ssp4.tplg \
 		sof-apl-tdf8532-mix.tplg \
 		sof-apl-tdf8532-eq.tplg \
-		sof-apl-tdf8532-fir.tplg
+		sof-apl-tdf8532-fir.tplg \
+		sof-byt-ssp2.tplg
 
 all: $(TPLGS)
 
