@@ -43,7 +43,7 @@ dnl     pipeline_rate, time_domain)
 # Set 1000us deadline on core 0 with priority 0
 PIPELINE_PCM_DAI_ADD(sof/pipe-low-latency-playback.m4,
 	1, 0, 2, s32le,
-	1000, 0, 0, SSP, 4, s32le, 3,
+	1000, 0, 0, SSP, 4, s32le, 2,
 	48000, 48000, 48000)
 
 #
@@ -55,11 +55,11 @@ dnl     pipe id, dai type, dai_index, dai_be,
 dnl     buffer, periods, format,
 dnl     deadline, priority, core, time_domain)
 
-# playback DAI is SSP5 using 3 periods
+# playback DAI is SSP4 using 2 periods
 # Buffers use s32le format, 1000us deadline on core 0 with priority 0
 DAI_ADD(sof/pipe-dai-playback.m4,
 	1, SSP, 4, SSP4-Codec,
-	PIPELINE_SOURCE_1, 3, s32le,
+	PIPELINE_SOURCE_1, 2, s32le,
 	1000, 0, 0, SCHEDULE_TIME_DOMAIN_TIMER)
 
 
