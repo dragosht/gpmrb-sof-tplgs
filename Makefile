@@ -6,6 +6,7 @@ TPLGS	=	sof-apl-nocodec.tplg \
 		sof-apl-tdf8532-fir.tplg \
 		sof-apl-tdf8532-iir.tplg \
 		sof-apl-tdf8532-amp.tplg \
+		sof-apl-tdf8532-demux.tplg \
 		sof-byt-ssp2.tplg
 
 all: $(TPLGS)
