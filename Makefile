@@ -1,4 +1,5 @@
 TPLGS	=	sof-apl-nocodec.tplg \
+		sof-apl-nocodec-ssp5.tplg \
 		sof-apl-tdf8532.tplg \
 		sof-apl-tdf8532-ssp4.tplg \
 		sof-apl-tdf8532-mix.tplg \
