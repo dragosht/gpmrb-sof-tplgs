@@ -22,8 +22,6 @@ include(`sof/tokens.m4')
 include(`platform/intel/bxt.m4')
 include(`platform/intel/dmic.m4')
 
-DEBUG_START
-
 #
 # Define the pipelines
 #
@@ -150,10 +148,10 @@ DAI_ADD(sof/pipe-dai-playback.m4,
 	1000, 0, 0, SCHEDULE_TIME_DOMAIN_TIMER)
 
 # Media playback pipeline 14 on PCM 7 using max 2 channels of s16le.
-# Set 1000us deadline on core 0 with priority 0
+# Set 4000us deadline on core 0 with priority 0
 PIPELINE_PCM_ADD(sof/pipe-pcm-media.m4,
 	14, 7, 2, s16le,
-	1000, 0, 0,
+	4000, 0, 0,
 	48000, 48000, 48000,
 	SCHEDULE_TIME_DOMAIN_TIMER,
 	PIPELINE_PLAYBACK_SCHED_COMP_1)
@@ -321,4 +319,3 @@ DAI_CONFIG(DMIC, 0, 6, NoCodec-6,
 		dnl STEREO_PDM0 is a pre-defined pdm config for stereo capture
 		PDM_CONFIG(DMIC, 0, STEREO_PDM0)))
 
-DEBUG_END

@@ -71,10 +71,10 @@ dnl     time_domain, sched_comp)
 
 
 # Media playback pipeline 3 on PCM 1 using max 2 channels of s32le.
-# Set 1000us deadline on core 0 with priority 0
+# Set 4000us deadline on core 0 with priority 0
 PIPELINE_PCM_ADD(sof/pipe-pcm-media.m4,
         3, 1, 2, s32le,
-	1000, 0, 0,
+	4000, 0, 0,
 	8000, 96000, 48000,
 	SCHEDULE_TIME_DOMAIN_TIMER,
 	PIPELINE_PLAYBACK_SCHED_COMP_1)
