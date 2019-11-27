@@ -24,7 +24,8 @@ DEBUG_START
 # Define the pipelines
 #
 # PCM0 -----> demux -----> SSP4
-#
+#               |
+# PCM4 <--------+
 
 dnl PIPELINE_PCM_ADD(pipeline,
 dnl     pipe id, pcm, max channels, format,
@@ -55,8 +56,41 @@ DAI_ADD(sof/pipe-dai-playback.m4,
 	PIPELINE_SOURCE_1, 2, s32le,
 	1000, 0, 0, SCHEDULE_TIME_DOMAIN_TIMER)
 
+# currently this dai is here as "virtual" capture backend
+dnl W_DAI_IN(type, index, dai_link, format, periods_sink, periods_source)
+W_DAI_IN(SSP, 4, SSP4-Codec, s32le, 2, 0)
+
+# Capture pipeline 5 from demux on PCM 1 using max 2 channels of s32le.
+PIPELINE_PCM_ADD(sof/pipe-passthrough-capture-sched.m4,
+	5, 4, 2, s32le,
+	1000, 1, 0,
+	48000, 48000, 48000,
+	SCHEDULE_TIME_DOMAIN_TIMER,
+	PIPELINE_PLAYBACK_SCHED_COMP_1)
+
+# Connect demux to capture
+SectionGraph."PIPE_CAP" {
+	index "0"
+
+	lines [
+		# mux to capture
+		dapm(PIPELINE_SINK_5, PIPELINE_DEMUX_1)
+	]
+}
+
+# Connect virtual capture to dai
+SectionGraph."PIPE_CAP_VIRT" {
+	index "5"
+
+	lines [
+		# mux to capture
+		dapm(ECHO REF 5, SSP4.IN)
+	]
+}
+
 # PCM Low Latency, id 0
 PCM_PLAYBACK_ADD(Port4, 0, PIPELINE_PCM_1)
+PCM_CAPTURE_ADD(EchoRef, 4, PIPELINE_PCM_5)
 
 #
 # BE configurations - overrides config in ACPI if present
