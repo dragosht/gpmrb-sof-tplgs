@@ -22,6 +22,9 @@ include(`sof/tokens.m4')
 include(`platform/intel/bxt.m4')
 include(`platform/intel/dmic.m4')
 
+
+DEBUG_START
+
 #
 # Define the pipelines
 #
@@ -319,3 +322,4 @@ DAI_CONFIG(DMIC, 0, 6, NoCodec-6,
 		dnl STEREO_PDM0 is a pre-defined pdm config for stereo capture
 		PDM_CONFIG(DMIC, 0, STEREO_PDM0)))
 
+DEBUG_END
