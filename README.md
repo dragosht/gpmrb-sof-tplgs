@@ -55,4 +55,12 @@ currently includes the following predefined pipelines for playback:
                                    |
                   pipeline n+3 >---+  .....etc....more pipes can be mixed here
 
+- pipe-asrc-playback.m4
+
+      PCM --> B0 --> ASRC --> B1 --> DAI
+
+- pipe-amp-volume-playback.m4
+
+      PCM --> B0 --> Amp -> B1 -> Volume 0 --> B2 --> DAI
+
 And some others.
