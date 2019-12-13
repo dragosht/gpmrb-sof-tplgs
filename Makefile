@@ -20,4 +20,4 @@ all: $(TPLGS)
 	m4 -I .. -I ../m4 -I ../common -I ../platform/common  $< > $@
 
 clean:
-	rm -f *.tplg
+	rm -f *.tplg *.dot *.png
