@@ -37,18 +37,14 @@ DEBUG_START
 #
 
 
-dnl PIPELINE_PCM_ADD(pipeline,
-dnl     pipe id, pcm, max channels, format,
-dnl     period, priority, core,
-dnl     pcm_min_rate, pcm_max_rate, pipeline_rate,
-dnl     time_domain, sched_comp)
-
 # Low Latency playback pipeline 1 on PCM 0 using max 2 channels of s32le.
-# 1000us deadline on core 0 with priority 0
-PIPELINE_PCM_ADD(sof/pipe-volume-playback.m4,
+# Set 1000us deadline on core 0 with priority 0
+PIPELINE_PCM_DAI_ADD(sof/pipe-low-latency-playback.m4,
 	1, 0, 2, s32le,
-	1000, 0, 0,
+	1000, 0, 0, SSP, 5, s32le, 2,
 	48000, 48000, 48000)
+
+
 
 dnl PIPELINE_ADD(pipeline,
 dnl     pipe id, max channels, format,
