@@ -1,4 +1,8 @@
 #!/bin/sh
 
-alsatplg -v 1 -c $1 -o $1.tplg
+FILE=$1
+EXTENSION="${FILE##*.}"
+FILENAME="${FILE%.*}"
+
+alsatplg -v 1 -c $1 -o ${FILENAME}.tplg
 
