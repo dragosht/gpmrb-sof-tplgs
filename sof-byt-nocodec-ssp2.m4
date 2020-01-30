@@ -18,7 +18,7 @@ DEBUG_START
 #
 # Define the pipelines
 #
-# PCM0 ----> volume (pipe 1) ----> SSP2
+# PCM0 <----> volume (pipe 1,2) <----> SSP2
 #
 
 dnl PIPELINE_PCM_ADD(pipeline,
@@ -31,6 +31,13 @@ dnl     time_domain, sched_comp)
 # 1000us deadline on core 0 with priority 0
 PIPELINE_PCM_ADD(sof/pipe-volume-playback.m4,
 	1, 0, 2, s32le,
+	1000, 0, 0,
+	48000, 48000, 48000)
+
+# Low Latency capture pipeline 2 on PCM 0 using max 2 channels of s16le.
+# 1000us deadline on core 0 with priority 0
+PIPELINE_PCM_ADD(sof/pipe-volume-capture.m4,
+	2, 0, 2, s32le,
 	1000, 0, 0,
 	48000, 48000, 48000)
 
@@ -52,9 +59,15 @@ DAI_ADD(sof/pipe-dai-playback.m4,
 	PIPELINE_SOURCE_1, 2, s24le,
 	1000, 1, 0, SCHEDULE_TIME_DOMAIN_DMA)
 
+# capture DAI is SSP2 using 2 periods
+# Buffers use s24le format, 1000us deadline on core 0 with priority 0
+DAI_ADD(sof/pipe-dai-capture.m4,
+	2, SSP, 2, NoCodec-2,
+	PIPELINE_SINK_2, 2, s24le,
+	1000, 1, 0, SCHEDULE_TIME_DOMAIN_DMA)
 
 # PCM Playback
-PCM_PLAYBACK_ADD(Port0, 0, PIPELINE_PCM_1)
+PCM_DUPLEX_ADD(Port0, 0, PIPELINE_PCM_1, PIPELINE_PCM_2)
 
 #
 # BE configurations - overrides config in ACPI if present
